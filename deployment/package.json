@@ -5,7 +5,9 @@
   "scripts": {
     "deploy-cognito": "cdk deploy system-cognito --require-approval never --app 'tsx ./src/bin/cognito.ts'",
     "destroy-cognito": "cdk destroy system-cognito --force --require-approval never --app 'tsx ./src/bin/cognito.ts'",
-    "clean": "rm -rf node_modules && rm -rf cdk.out",
+    "deploy-ui-cloudfront": "cdk deploy system-ui-cloudfront --require-approval never --app 'tsx ./src/bin/ui-cloudfront.ts'",
+    "destroy-ui-cloudfront": "cdk destroy system-ui-cloudfront --force --require-approval never --app 'tsx ./src/bin/ui-cloudfront.ts'",
+    "clean": "rm -rf node_modules cdk.out",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
