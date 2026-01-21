@@ -1,0 +1,24 @@
+{
+  "name": "@root/deployment",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "deploy-cognito": "cdk deploy system-cognito --require-approval never --app 'tsx ./src/bin/cognito.ts'",
+    "destroy-cognito": "cdk destroy system-cognito --force --require-approval never --app 'tsx ./src/bin/cognito.ts'",
+    "clean": "rm -rf node_modules && rm -rf cdk.out",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.235.1",
+    "aws-lambda": "1.0.7",
+    "constructs": "10.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "25.0.3",
+    "@types/aws-lambda": "8.10.160",
+    "aws-cdk": "2.1101.0",
+    "esbuild": "^0.24.0",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
+  }
+}

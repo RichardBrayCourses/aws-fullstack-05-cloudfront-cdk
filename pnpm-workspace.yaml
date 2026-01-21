@@ -1,0 +1,8 @@
+packages:
+  - ./*
+  - services/*
+  - ui/*
+
+onlyBuiltDependencies:
+  - aws-sdk
+  - esbuild
