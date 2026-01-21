@@ -8,7 +8,7 @@ const app = new cdk.App();
 
 if (!process.env.CDK_UPTICK_DOMAIN_NAME || !process.env.CDK_UPTICK_SYSTEM_NAME)
   throw new Error(
-    "Error: .env file must contain  CDK_UPTICK_DOMAIN_NAME,process.env.CDK_UPTICK_SYSTEM_NAME ",
+    "Error: .env file must contain CDK_UPTICK_DOMAIN_NAME, CDK_UPTICK_SYSTEM_NAME ",
   );
 
 const postConfirmationStack = new CognitoPostConfirmationStack(
