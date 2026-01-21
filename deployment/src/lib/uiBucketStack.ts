@@ -22,7 +22,7 @@ export class AppStack extends Stack {
 
     const distId = StringParameter.valueForStringParameter(
       this,
-      `/cloudfront/uptickart/distribution-id`,
+      `/cloudfront/ui/distribution-id`,
     );
     const distribution = Distribution.fromDistributionAttributes(
       this,

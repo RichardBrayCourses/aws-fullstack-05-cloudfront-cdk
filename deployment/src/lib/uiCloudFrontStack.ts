@@ -24,6 +24,7 @@ import {
   CertificateValidation,
 } from "aws-cdk-lib/aws-certificatemanager";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
+import { StringParameter } from "aws-cdk-lib/aws-ssm";
 
 interface UiCloudFrontStackProps extends StackProps {
   bucketName: string;
@@ -115,8 +116,9 @@ export class UiCloudFrontStack extends Stack {
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     });
 
-    new CfnOutput(this, "CloudFrontDistributionUrlOutput", {
-      value: `https://${distribution.distributionDomainName}`,
+    new StringParameter(this, "CloudFrontDistributionId", {
+      parameterName: `/cloudfront/ui/distribution-id`,
+      stringValue: distribution.distributionId,
     });
   }
 }
