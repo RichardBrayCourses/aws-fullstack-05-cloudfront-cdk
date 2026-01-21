@@ -36,7 +36,6 @@ export class AppStack extends Stack {
     new BucketDeployment(this, `uptick-cloudfront-uptickart-deployment`, {
       sources: [Source.asset(appDist)],
       destinationBucket: bucket,
-      destinationKeyPrefix: `apps/uptickart/latest`,
       distribution,
       distributionPaths: ["/*"],
     });
