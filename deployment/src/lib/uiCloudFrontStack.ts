@@ -46,7 +46,6 @@ export class UiCloudFrontStack extends Stack {
     });
 
     const wwwSubdomain = `www.${domainName}`;
-    const cloudfrontUrl = `https://${wwwSubdomain}`;
 
     const zone = HostedZone.fromHostedZoneAttributes(
       this,

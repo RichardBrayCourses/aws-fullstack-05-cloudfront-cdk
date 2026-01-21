@@ -11,6 +11,7 @@ import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 interface CognitoStackProps extends StackProps {
   systemName: string;
   postConfirmationLambda: NodejsFunction;
+  domainName: string;
 }
 
 export class CognitoStack extends Stack {
@@ -19,8 +20,9 @@ export class CognitoStack extends Stack {
   constructor(scope: Construct, id: string, props: CognitoStackProps) {
     super(scope, id, props);
 
-    const { systemName, postConfirmationLambda } = props;
-    const uniquePrefix = `${systemName}`.replaceAll(".", "-");
+    const { systemName, postConfirmationLambda, domainName } = props;
+
+    const wwwSubdomain = `https://www.${domainName}`;
 
     this.userPool = new UserPool(this, "uptick-userpool", {
       userPoolName: "uptick-userpool",
@@ -43,18 +45,18 @@ export class CognitoStack extends Stack {
       },
     });
 
-    const cognitoDomain = this.userPool.addDomain(`${uniquePrefix}-domain`, {
+    const cognitoDomain = this.userPool.addDomain(`${systemName}-domain`, {
       cognitoDomain: {
-        domainPrefix: uniquePrefix,
+        domainPrefix: systemName,
       },
       managedLoginVersion: 2,
     });
 
     const callbackUrls = [
       `http://localhost:3000/callback`,
-      `https://www.uptickart.com/callback`,
+      `${wwwSubdomain}/callback`,
     ];
-    const logoutUrls = [`http://localhost:3000`, `https://www.uptickart.com`];
+    const logoutUrls = [`http://localhost:3000`, `${wwwSubdomain}`];
 
     const spaClient = this.userPool.addClient("uptick-spa-client", {
       userPoolClientName: "uptick-spa-client",
