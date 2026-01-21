@@ -6,7 +6,9 @@ import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Distribution } from "aws-cdk-lib/aws-cloudfront";
 import { Stack, StackProps } from "aws-cdk-lib";
 
-interface AppStackProps extends StackProps {}
+interface AppStackProps extends StackProps {
+  bucketName: string;
+}
 
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: AppStackProps) {
@@ -14,10 +16,8 @@ export class AppStack extends Stack {
 
     const appDist = join(__dirname, "..", "..", "..", "ui", "dist");
 
-    const bucketName = StringParameter.valueForStringParameter(
-      this,
-      `/cloudfront/uptickart/bucket-name`,
-    );
+    const { bucketName } = props;
+
     const bucket = Bucket.fromBucketName(this, "ImportedBucket", bucketName);
 
     const distId = StringParameter.valueForStringParameter(

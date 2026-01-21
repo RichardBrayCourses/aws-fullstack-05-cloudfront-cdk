@@ -13,15 +13,13 @@ import {
   Stack,
   StackProps,
 } from "aws-cdk-lib";
+import { StringParameter } from "aws-cdk-lib/aws-ssm";
 
 interface UiCloudFrontStackProps extends StackProps {
   bucketName: string;
 }
 
 export class UiCloudFrontStack extends Stack {
-  public readonly distribution: Distribution;
-  public readonly cloudfrontUrl: string;
-
   constructor(scope: Construct, id: string, props: UiCloudFrontStackProps) {
     super(scope, id, props);
 
@@ -35,35 +33,36 @@ export class UiCloudFrontStack extends Stack {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
     });
 
-    this.distribution = new Distribution(this, "ui-distribution", {
+    const distribution = new Distribution(this, "ui-distribution", {
       defaultBehavior: {
         origin: S3BucketOrigin.withOriginAccessControl(uiBucket),
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: CachePolicy.CACHING_DISABLED,
       },
-      defaultRootObject: "/uptickart/index.html",
+      defaultRootObject: "/index.html",
       errorResponses: [
         {
           httpStatus: 403,
           responseHttpStatus: 200,
-          responsePagePath: "/uptickart/index.html",
+          responsePagePath: "/index.html",
           ttl: Duration.seconds(0),
         },
         {
           httpStatus: 404,
           responseHttpStatus: 200,
-          responsePagePath: "/uptickart/index.html",
+          responsePagePath: "/index.html",
           ttl: Duration.seconds(0),
         },
       ],
     });
 
     new CfnOutput(this, "CloudFrontDistributionUrlOutput", {
-      value: `https://${this.distribution.distributionDomainName}`,
+      value: `https://${distribution.distributionDomainName}`,
     });
 
-    new CfnOutput(this, "CloudFrontDistributionIdOutput", {
-      value: this.distribution.distributionId,
+    new StringParameter(this, "CloudFrontDistributionId", {
+      parameterName: `/cloudfront/uptickart/distribution-id`,
+      stringValue: distribution.distributionId,
     });
   }
 }
