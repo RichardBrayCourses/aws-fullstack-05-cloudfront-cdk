@@ -50,8 +50,11 @@ export class CognitoStack extends Stack {
       managedLoginVersion: 2,
     });
 
-    const callbackUrls = [`http://localhost:3000/callback`];
-    const logoutUrls = [`http://localhost:3000`];
+    const callbackUrls = [
+      `http://localhost:3000/callback`,
+      `https://www.uptickart.com/callback`,
+    ];
+    const logoutUrls = [`http://localhost:3000`, `https://www.uptickart.com`];
 
     const spaClient = this.userPool.addClient("uptick-spa-client", {
       userPoolClientName: "uptick-spa-client",

@@ -1,26 +1,23 @@
 #!/usr/bin/env node
+import "dotenv/config";
 import * as cdk from "aws-cdk-lib";
-import { config } from "dotenv";
-import { resolve } from "path";
 import { UiCloudFrontStack } from "../lib/uiCloudFrontStack";
 
-// Load environment variables from .env file
-config({ path: resolve(__dirname, "../../../.env") });
-
 const app = new cdk.App();
-
-if (!process.env.CDK_UI_BUCKETNAME) {
-  throw Error(
-    "Error: bucket name not found. Please set CDK_UI_BUCKETNAME in .env file or as an environment variable.",
+if (
+  !process.env.CDK_UI_BUCKETNAME ||
+  !process.env.CDK_UPTICK_DOMAIN_NAME ||
+  !process.env.CDK_UPTICK_ZONE_NAME ||
+  !process.env.CDK_UPTICK_ZONE_ID
+)
+  throw new Error(
+    "Error: .env file must contain CDK_UI_BUCKETNAME, CDK_UPTICK_DOMAIN_NAME, CDK_UPTICK_ZONE_NAME, CDK_UPTICK_ZONE_ID",
   );
-}
 
-const bucketName = process.env.CDK_UI_BUCKETNAME;
-
-// Create UI CloudFront stack (creates its own S3 bucket)
 new UiCloudFrontStack(app, "system-ui-cloudfront", {
-  env: {
-    region: "us-east-1", // CloudFront is global, but we need to specify a region for the stack
-  },
-  bucketName,
+  env: { region: "us-east-1" },
+  bucketName: process.env.CDK_UI_BUCKETNAME,
+  domainName: process.env.CDK_UPTICK_DOMAIN_NAME,
+  hostedZoneName: process.env.CDK_UPTICK_ZONE_NAME,
+  hostedZoneId: process.env.CDK_UPTICK_ZONE_ID,
 });
