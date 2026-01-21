@@ -58,7 +58,11 @@ export class UiCloudFrontStack extends Stack {
       ],
     });
 
-    new CfnOutput(this, "UiCloudFrontDistributionIdOutput", {
+    new CfnOutput(this, "CloudFrontDistributionUrlOutput", {
+      value: `https://${this.distribution.distributionDomainName}`,
+    });
+
+    new CfnOutput(this, "CloudFrontDistributionIdOutput", {
       value: this.distribution.distributionId,
     });
   }

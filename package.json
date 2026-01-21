@@ -5,7 +5,8 @@
     "bootstrap-up": "pnpm -C deployment/scripts run bootstrap-up",
     "bootstrap-down": "pnpm -C deployment/scripts run bootstrap-down",
     "deploy-cognito": "pnpm -F @root/deployment run deploy-cognito",
-    "deploy-ui-cloudfront": "pnpm -F @root/ui run build && pnpm -F @root/deployment run deploy-ui-cloudfront",
+    "deploy-ui-cloudfront": "pnpm -F @root/deployment run deploy-ui-cloudfront",
+    "deploy-ui": "pnpm -F @root/ui run build && pnpm -F @root/deployment run deploy-ui",
     "dev": "pnpm -F @root/ui dev",
     "type-check": "pnpm -r type-check",
     "clean": "pnpm -r clean && rm -rf node_modules"

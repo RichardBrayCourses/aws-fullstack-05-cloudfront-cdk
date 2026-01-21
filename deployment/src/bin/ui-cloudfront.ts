@@ -15,9 +15,17 @@ if (!process.env.CDK_UI_BUCKET) {
 const bucketName = process.env.CDK_UI_BUCKET;
 
 // Create UI CloudFront stack (creates its own S3 bucket)
-new UiCloudFrontStack(app, "system-ui-cloudfront", {
+const cloudfrontStack = new UiCloudFrontStack(app, "system-ui-cloudfront", {
   env: {
     region,
   },
   bucketName,
+});
+
+const cloudfrontParameterStack = new UiCloudFrontStack(app, "system-ui-cloudfront-paramters", {
+  env: {
+    region: 'eu-west-2',
+  },
+  bucketName,
+  distributionId: cloudfrontStack.????
 });
