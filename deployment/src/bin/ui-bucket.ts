@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
+import { config } from "dotenv";
+import { resolve } from "path";
 import { AppStack } from "../lib/uiBucketStack.js";
+
+// Load environment variables from .env file
+config({ path: resolve(__dirname, "../../../.env") });
 
 const app = new cdk.App();
 
-if (!process.env.CDK_UI_BUCKET) {
+if (!process.env.CDK_UI_BUCKETNAME) {
   throw Error(
-    "Error: bucket name not found.  Please set env var process.env.CDK_UI_BUCKET",
+    "Error: bucket name not found. Please set CDK_UI_BUCKETNAME in .env file or as an environment variable.",
   );
 }
 
-const bucketName = process.env.CDK_UI_BUCKET;
+const bucketName = process.env.CDK_UI_BUCKETNAME;
 
 new AppStack(app, `system-ui-bucket`, {
   env: {
