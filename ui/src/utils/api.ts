@@ -1,3 +1,17 @@
+/**
+ * The API below uses browser "session storage".
+ * The effect is that the user is logged out as soon as the browser tab or window is closed.
+ *
+ * An alternative is browser "localStorage".
+ * This persists across browser sessions, meaning that the user remains logged in
+ * when the browser is closed and re-opened, until the Cognito token expires.
+ *
+ * If you would prefer this then you should create a localStorage.ts file:
+ * - copy sessionStorage.ts,
+ * - replace all instances of window.sessionStorage with window.localStorage
+ * - Replace imports: change "./sessionStorage" to "./localStorage"
+ */
+
 import {
   generateCodeVerifier,
   generateCodeChallenge,
@@ -15,7 +29,7 @@ const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID;
 export async function startLogin(): Promise<void> {
   if (!COGNITO_DOMAIN || !COGNITO_CLIENT_ID) {
     throw new Error(
-      "Missing COGNITO_DOMAIN or COGNITO_CLIENT_ID (set it in a .env file)."
+      "Missing COGNITO_DOMAIN or COGNITO_CLIENT_ID (set it in a .env file).",
     );
   }
 
@@ -30,20 +44,20 @@ export async function startLogin(): Promise<void> {
     state,
     codeChallenge,
     COGNITO_DOMAIN,
-    COGNITO_CLIENT_ID
+    COGNITO_CLIENT_ID,
   );
 }
 
 export async function handleOAuthCallback(
   code: string,
-  state: string
+  state: string,
 ): Promise<User> {
   const storedState = sessionStorage.getState();
   const codeVerifier = sessionStorage.getCodeVerifier();
 
   if (!storedState || !codeVerifier) {
     throw new Error(
-      "Error: unable to read state or code verifier from session storage."
+      "Error: unable to read state or code verifier from session storage.",
     );
   }
 
