@@ -5,12 +5,12 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import type { User } from "@/types";
+import type { OAuthUser } from "@/types";
 import { startLogin, doLogout, getUserFromStoredToken } from "@/utils/api";
 
 interface AuthContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: OAuthUser | null;
+  setUser: (user: OAuthUser | null) => void;
   authenticated: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -26,7 +26,7 @@ export const useAuth = (): AuthContextType => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<OAuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
