@@ -16,7 +16,7 @@ export default () => {
             ) : (
               <p>
                 You are logged in as{" "}
-                <strong>{user.name || user.email || "User"}</strong>.
+                <strong>{user.nickName || user.email || "User"}</strong>.
               </p>
             )}
           </CardContent>
@@ -28,7 +28,8 @@ export default () => {
             </CardHeader>
             <CardContent className="space-y-2 text-left wrap-break-word">
               <p className="text-muted-foreground">
-                <span className="font-medium">Name:</span> {user.name || "N/A"}
+                <span className="font-medium">Name:</span>{" "}
+                {user.nickName || "N/A"}
               </p>
               <p className="text-muted-foreground">
                 <span className="font-medium">Email:</span>{" "}
