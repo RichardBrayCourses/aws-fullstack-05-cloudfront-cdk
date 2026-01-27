@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "deploy-cognito": "cdk deploy system-cognito --require-approval never --app 'tsx ./src/bin/cognito.ts'",
-    "destroy-cognito": "cdk destroy system-cognito --force --require-approval never --app 'tsx ./src/bin/cognito.ts'",
+    "destroy-cognito": "cdk destroy system-cognito system-cognito-post-confirmation --force --require-approval never --app 'tsx ./src/bin/cognito.ts'",
     "deploy-ui-cloudfront": "cdk deploy system-ui-cloudfront --require-approval never --app 'tsx ./src/bin/ui-cloudfront.ts'",
     "destroy-ui-cloudfront": "cdk destroy system-ui-cloudfront --force --require-approval never --app 'tsx ./src/bin/ui-cloudfront.ts'",
     "deploy-ui": "cdk deploy system-ui-bucket --require-approval never --app 'tsx ./src/bin/ui-bucket.ts'",

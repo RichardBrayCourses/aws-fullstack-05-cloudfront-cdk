@@ -20,8 +20,12 @@ const postConfirmationStack = new CognitoPostConfirmationStack(
 );
 
 // Create Cognito stack
-new CognitoStack(app, "system-cognito", {
+const cognitoStack = new CognitoStack(app, "system-cognito", {
   systemName: process.env.CDK_UPTICK_SYSTEM_NAME,
   domainName: process.env.CDK_UPTICK_DOMAIN_NAME,
   postConfirmationLambda: postConfirmationStack.lambda,
 });
+
+// Make cognito stack depend on post-confirmation stack
+// This ensures the correct order of destruction when destroying both stacks together.
+cognitoStack.addDependency(postConfirmationStack);
